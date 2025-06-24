@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Copy Tool</title>
+  <style>
+    body {
+      background-color: #111827;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    textarea {
+      width: 90%;
+      height: 150px;
+      margin-bottom: 20px;
+      background: #1f2937;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>📱 নাম্বার কপি টুলস</h2>
+  <textarea id="numberInput" placeholder="এখানে আপনার নাম্বারগুলো লিখুন..."></textarea><br>
+  <button onclick="startCopy()">শুরু করুন ✨</button>
+  <div id="copySection" style="display: none;">
+    <p id="currentNumber"></p>
+    <button onclick="copyNumber()">কপি করুন ✅</button>
+    <p>মোট: <span id="totalCount">0</span> | কপি হয়েছে: <span id="copiedCount">0</span> | বাকি: <span id="remainingCount">0</span></p>
+  </div>
+
+  <script>
+    let numbers = [];
+    let copied = 0;
+
+    function startCopy() {
+      const input = document.getElementById('numberInput').value.trim();
+      if (!input) return;
+      numbers = input.split(/\n/).filter(n => n);
+      copied = 0;
+      document.getElementById('copySection').style.display = 'block';
+      updateDisplay();
+    }
+
+    function copyNumber() {
+      if (copied >= numbers.length) return;
+      const num = numbers[copied];
+      navigator.clipboard.writeText(num).then(() => {
+        copied++;
+        updateDisplay();
+      });
+    }
+
+    function updateDisplay() {
+      document.getElementById('currentNumber').textContent = numbers[copied] || "সব কপি শেষ ✅";
+      document.getElementById('totalCount').textContent = numbers.length;
+      document.getElementById('copiedCount').textContent = copied;
+      document.getElementById('remainingCount').textContent = numbers.length - copied;
+    }
+  </script>
+</body>
+</html>
